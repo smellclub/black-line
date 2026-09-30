@@ -10,7 +10,7 @@ export function Location() {
   const mapSrc = `https://www.google.com/maps?q=${encodeURIComponent(address.mapsQuery)}&output=embed`;
 
   return (
-    <section aria-labelledby="ubicacion-title" id="ubicacion" className="border-b border-line">
+    <section aria-labelledby="ubicacion-title" id="ubicacion" className="border-b border-line bg-ink-soft">
       <div className="mx-auto grid max-w-6xl gap-12 px-5 py-24 md:grid-cols-2 md:px-8 md:py-32">
         <div>
           <SectionTitle id="ubicacion-title" eyebrow="Dónde estamos" title="Horarios y ubicación" />

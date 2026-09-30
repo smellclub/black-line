@@ -9,6 +9,7 @@ import { Location } from "@/components/sections/Location";
 import { Faq } from "@/components/sections/Faq";
 import { Footer } from "@/components/sections/Footer";
 import { JsonLd } from "@/components/JsonLd";
+import { MobileBookingBar } from "@/components/ui/MobileBookingBar";
 
 export default function Home() {
   return (
@@ -26,6 +27,7 @@ export default function Home() {
         <Faq />
       </main>
       <Footer />
+      <MobileBookingBar />
     </>
   );
 }

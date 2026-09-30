@@ -45,8 +45,9 @@ const nextConfig: NextConfig = {
   poweredByHeader: false,
   images: {
     qualities: [75],
-    // Si el cliente tiene fotos en otro dominio, agregalo acá, por ejemplo:
-    // remotePatterns: [new URL("https://images.unsplash.com/**")],
+    // Dominios desde donde next/image puede traer fotos. Las optimiza en el
+    // servidor y las sirve desde /_next/image, por eso la CSP no cambia.
+    remotePatterns: [new URL("https://images.unsplash.com/**")],
   },
   async headers() {
     return [{ source: "/(.*)", headers: securityHeaders }];

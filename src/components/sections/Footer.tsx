@@ -7,7 +7,7 @@ export function Footer() {
   const year = new Date().getFullYear();
 
   return (
-    <footer className="bg-ink-soft">
+    <footer className="bg-ink-soft pb-20 md:pb-0">
       <div className="mx-auto grid max-w-6xl gap-10 px-5 py-16 md:grid-cols-3 md:px-8">
         <div>
           <p className="font-display text-3xl font-semibold uppercase tracking-[0.1em]">{business.name}</p>

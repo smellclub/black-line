@@ -12,19 +12,15 @@ export function Gallery() {
             <li
               key={img.src}
               data-reveal
-              className={`group relative overflow-hidden bg-ink-soft ${i === 0 ? "col-span-2 row-span-2 md:col-span-2" : ""}`}
+              className={`group relative aspect-square overflow-hidden border border-transparent bg-ink-soft transition-colors duration-500 hover:border-accent ${i === 0 ? "col-span-2 row-span-2" : ""}`}
             >
               <Image
                 src={img.src}
                 alt={img.alt}
-                width={800}
-                height={800}
+                fill
                 sizes={i === 0 ? "(min-width: 768px) 66vw, 100vw" : "(min-width: 768px) 33vw, 50vw"}
-                className="aspect-square h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
+                className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
               />
-              <p className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-ink/90 to-transparent p-4 text-xs uppercase tracking-[0.2em] text-paper/90">
-                {img.alt}
-              </p>
             </li>
           ))}
         </ul>

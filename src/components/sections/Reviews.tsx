@@ -3,7 +3,7 @@ import { SectionTitle } from "@/components/ui/SectionTitle";
 
 export function Reviews() {
   return (
-    <section aria-labelledby="resenas-title" className="border-b border-line">
+    <section aria-labelledby="resenas-title" className="border-b border-line bg-ink-soft">
       <div className="mx-auto max-w-6xl px-5 py-24 md:px-8 md:py-32">
         <SectionTitle id="resenas-title" eyebrow="Reseñas" title="Lo que dicen" />
         <ul className="grid gap-6 md:grid-cols-3">

@@ -1,7 +1,7 @@
 /**
  * Todo el contenido del negocio vive acá.
  * Para rebrandear la web a otra barbería alcanza con editar este archivo
- * (y reemplazar las fotos de /public/images si el cliente tiene las suyas).
+ * (incluidas las fotos: hero, barberos y galería).
  *
  * IMPORTANTE: "Black Line" es un negocio FICTICIO para usar como demo.
  * Nombres, dirección, teléfono y reseñas son inventados.
@@ -24,6 +24,8 @@ export type Barber = {
   bio: string;
   /** Servicios que hace este barbero (ids de `services`). */
   serviceIds: string[];
+  /** Retrato del barbero (vertical). */
+  image: string;
 };
 
 export const business = {
@@ -32,7 +34,16 @@ export const business = {
   description:
     "Barbería en Montevideo. Cortes clásicos y modernos, fade, barba y afeitado con navaja. Reservá tu turno online en un minuto.",
   /** URL pública donde va a vivir la web (para SEO y Open Graph). */
-  siteUrl: "https://black-line-demo.vercel.app",
+  siteUrl: "https://black-line-smellclub.vercel.app",
+
+  /**
+   * Fotos de stock de Unsplash para la demo. Reemplazar por fotos reales del cliente.
+   * (Si usás fotos de otro sitio, agregá el dominio en images.remotePatterns de next.config.ts.)
+   */
+  heroImage: {
+    src: "https://images.unsplash.com/photo-1503951914875-452162b0f3f1",
+    alt: "Interior de una barbería con sillones clásicos",
+  },
 
   /** Colores de marca. El resto de la paleta (negro y blanco) es fija. */
   colors: {
@@ -135,6 +146,7 @@ export const business = {
       role: "Fundador",
       bio: "Más de diez años con la tijera. Especialista en cortes clásicos.",
       serviceIds: ["corte", "fade", "barba", "corte-barba", "afeitado"],
+      image: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e",
     },
     {
       id: "nico",
@@ -142,6 +154,7 @@ export const business = {
       role: "Barbero",
       bio: "Fades y diseños. Si lo viste en TikTok, lo hace.",
       serviceIds: ["corte", "fade", "corte-barba"],
+      image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d",
     },
     {
       id: "santi",
@@ -149,21 +162,21 @@ export const business = {
       role: "Barbero",
       bio: "Barbas y afeitado a navaja. Paciencia de relojero.",
       serviceIds: ["corte", "barba", "corte-barba", "afeitado"],
+      image: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d",
     },
   ] satisfies Barber[],
 
   /**
-   * Galería de trabajos. Las imágenes van en /public/images.
-   * Las que vienen con la demo son ilustraciones placeholder:
-   * reemplazalas por fotos reales del cliente.
+   * Galería de trabajos. Fotos de stock de Unsplash para la demo:
+   * reemplazalas por fotos reales del cliente (y poné un alt que describa cada una).
    */
   gallery: [
-    { src: "/images/gallery-1.svg", alt: "Fade con terminación a navaja" },
-    { src: "/images/gallery-2.svg", alt: "Barba perfilada" },
-    { src: "/images/gallery-3.svg", alt: "Corte clásico con raya al costado" },
-    { src: "/images/gallery-4.svg", alt: "Afeitado clásico" },
-    { src: "/images/gallery-5.svg", alt: "Corte texturizado" },
-    { src: "/images/gallery-6.svg", alt: "Interior del local" },
+    { src: "https://images.unsplash.com/photo-1585747860715-2ba37e788b70", alt: "Trabajo de barbería, foto 1" },
+    { src: "https://images.unsplash.com/photo-1621605815971-fbc98d665033", alt: "Trabajo de barbería, foto 2" },
+    { src: "https://images.unsplash.com/photo-1599351431202-1e0f0137899a", alt: "Trabajo de barbería, foto 3" },
+    { src: "https://images.unsplash.com/photo-1622286342621-4bd786c2447c", alt: "Trabajo de barbería, foto 4" },
+    { src: "https://images.unsplash.com/photo-1605497788044-5a32c7078486", alt: "Trabajo de barbería, foto 5" },
+    { src: "https://images.unsplash.com/photo-1512690459411-b9245aed614b", alt: "Trabajo de barbería, foto 6" },
   ],
 
   /**
