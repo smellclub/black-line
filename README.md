@@ -73,3 +73,4 @@ npm run dev     # desarrollo
 npm run build   # build de producción
 npm run lint    # revisar el código
 ```
+
