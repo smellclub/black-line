@@ -10,7 +10,7 @@ export function Footer() {
     <footer className="bg-ink-soft pb-20 md:pb-0">
       <div className="mx-auto grid max-w-6xl gap-10 px-5 py-16 md:grid-cols-3 md:px-8">
         <div>
-          <p className="font-display text-3xl font-semibold uppercase tracking-[0.1em]">{business.name}</p>
+          <p className="font-display text-5xl font-extrabold uppercase tracking-tight">{business.name}</p>
           <p className="mt-3 text-sm text-muted">{business.slogan}</p>
         </div>
         <div>
@@ -50,7 +50,7 @@ export function Footer() {
       <div className="border-t border-line">
         <div className="mx-auto flex max-w-6xl flex-col gap-3 px-5 py-6 text-xs text-muted md:flex-row md:justify-between md:px-8">
           <p>
-            © {year} {business.name}. Sitio de demostración.
+            © {year} {business.name}.{business.isDemo && " Demo · negocio inventado: nombres, datos y reseñas son de ejemplo."}
           </p>
           <nav aria-label="Legal" className="flex gap-6">
             <Link href="/privacidad" className="hover:text-paper">

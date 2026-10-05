@@ -3,7 +3,7 @@ import { SectionTitle } from "@/components/ui/SectionTitle";
 
 export function Faq() {
   return (
-    <section aria-labelledby="faq-title" className="border-b border-line">
+    <section aria-labelledby="faq-title">
       <div className="mx-auto max-w-3xl px-5 py-24 md:px-8 md:py-32">
         <SectionTitle id="faq-title" eyebrow="Preguntas frecuentes" title="Antes de venir" />
         {/* <details> es accesible y funciona sin JavaScript. */}

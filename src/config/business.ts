@@ -29,6 +29,13 @@ export type Barber = {
 };
 
 export const business = {
+  /**
+   * true = negocio inventado para mostrar. Muestra la etiqueta "Demo · negocio inventado"
+   * y, si no hay Supabase configurado, la reserva se simula (no se guarda nada).
+   * Con un cliente real: false. Así, si falta la base, la web avisa del error en vez de fingir.
+   */
+  isDemo: true,
+
   name: "Black Line",
   slogan: "Cortes con precisión. Sin apuro.",
   description:
