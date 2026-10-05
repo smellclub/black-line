@@ -64,6 +64,11 @@ export async function getAvailableSlots(input: {
   if (!barber.serviceIds.includes(serviceId)) return { ok: false };
   if (!bookableDates().includes(date)) return { ok: false };
 
+  // Demo sin base de datos: mostramos todos los horarios del día como libres.
+  if (business.isDemo && !getSupabaseAdmin()) {
+    return { ok: true, slots: freeSlots(date, service.durationMinutes, []) };
+  }
+
   const busy = await busyIntervals(barberId, date);
   if (!busy) {
     if (!getSupabaseAdmin()) {
@@ -130,6 +135,21 @@ export async function createBooking(
   }
 
   const supabase = getSupabaseAdmin();
+  // Demo sin base de datos: la reserva se "confirma" pero no se guarda nada.
+  // Así la demo se puede mostrar aunque Supabase no esté configurado (o esté pausado).
+  if (!supabase && business.isDemo) {
+    return {
+      status: "success",
+      booking: {
+        serviceName: service.name,
+        barberName: barber.name,
+        date: data.date,
+        time: data.time,
+        customerName: data.name,
+        simulated: true,
+      },
+    };
+  }
   if (!supabase) {
     console.warn("[bookings] Faltan SUPABASE_URL o SUPABASE_SERVICE_ROLE_KEY en .env.local");
     return { status: "error", message: GENERIC_ERROR };

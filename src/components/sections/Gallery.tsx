@@ -4,9 +4,9 @@ import { SectionTitle } from "@/components/ui/SectionTitle";
 
 export function Gallery() {
   return (
-    <section aria-labelledby="trabajos-title" id="trabajos" className="border-b border-line">
+    <section aria-labelledby="trabajos-title" id="trabajos" className="bg-ink">
       <div className="mx-auto max-w-6xl px-5 py-24 md:px-8 md:py-32">
-        <SectionTitle id="trabajos-title" eyebrow="Trabajos" title="Recién salidos" />
+        <SectionTitle id="trabajos-title" eyebrow="Trabajos" title="Recién salidos de la silla" />
         <ul className="grid grid-cols-2 gap-2 md:grid-cols-3 md:gap-3">
           {business.gallery.map((img, i) => (
             <li

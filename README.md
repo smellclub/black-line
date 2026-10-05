@@ -15,7 +15,10 @@ cp .env.example .env.local   # después completás los valores (paso 2)
 npm run dev                  # abre http://localhost:3000
 ```
 
-Sin Supabase configurado la landing funciona, pero el formulario avisa que no puede cargar horarios.
+Sin Supabase configurado la web funciona en **modo demo** (`isDemo: true` en `business.ts`):
+se ven todos los horarios libres y la reserva se "confirma" sin guardar nada. Sirve para mostrarla
+aunque la base no esté creada o esté pausada. Con un cliente real poné `isDemo: false`: así, si
+falta la base, la web avisa del error en vez de fingir que reservó.
 
 ## 2. Crear la base en Supabase
 
@@ -40,6 +43,20 @@ Sin Supabase configurado la landing funciona, pero el formulario avisa que no pu
 3. En **Environment Variables** cargá las mismas 3 variables de `.env.local`.
 4. **Deploy**. Cuando tengas la URL final, ponela en `siteUrl` dentro de `business.ts`.
 
+## El concepto: "la línea"
+
+Black Line vive de líneas limpias: la de la navaja, la del fade y la del poste rayado. Por eso la
+web repite tres recursos (están en `globals.css`):
+
+- **La navaja** (`.razor-line`): una línea fina que cruza el nombre al cargar y que se dibuja debajo
+  de cada título al hacer scroll.
+- **El poste** (`.barber-pole`): rayas diagonales en movimiento, en el costado del hero y en las
+  cintas torcidas con los servicios.
+- **El corte** (`.cut-bottom`): el hero termina en diagonal, como una pasada de máquina.
+
+La lista de precios es una pizarra clara (rompe con el negro) y cada servicio es un botón que baja a
+la reserva con ese servicio ya elegido. Todo respeta `prefers-reduced-motion`.
+
 ## 4. Rebrandear para otra barbería
 
 Todo el contenido está en **`src/config/business.ts`**: nombre, eslogan, color de acento,
@@ -48,6 +65,8 @@ datos legales.
 
 - **Fotos:** reemplazá las ilustraciones de `public/images/` por fotos reales del cliente
   (JPG o WebP) y actualizá las rutas de `gallery` en `business.ts`.
+- **Modo demo:** con un cliente real poné `isDemo: false` (saca la etiqueta "Demo · negocio
+  inventado" y activa los links reales de WhatsApp y teléfono).
 - **Reseñas:** las que vienen son de ejemplo. Con un cliente real, usá solo reseñas reales.
 - **Legales:** `/privacidad` y `/terminos` son textos modelo. Tiene que revisarlos un profesional
   antes de usarlos con un negocio real.

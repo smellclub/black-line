@@ -12,13 +12,19 @@
   --color-muted: #a3a3a3;
   --color-accent: var(--brand-accent);
   --color-accent-hover: var(--brand-accent-hover);
-  --font-display: var(--font-oswald);
-  --font-sans: var(--font-inter);
+  --font-display: var(--font-big-shoulders);
+  --font-sans: var(--font-archivo);
+}
+
+html,
+body {
+  /* Nada se sale por los costados en el celu (cintas torcidas, títulos gigantes). */
+  overflow-x: clip;
 }
 
 html {
   scroll-behavior: smooth;
-  scroll-padding-top: 5rem;
+  scroll-padding-top: 6rem;
 }
 
 body {
@@ -52,6 +58,81 @@ body {
   .js-reveal [data-reveal].is-visible {
     opacity: 1;
     transform: none;
+  }
+}
+
+/*
+ * CONCEPTO: "la línea". Black Line vive de líneas limpias: la de la navaja,
+ * la del fade, la del poste rayado. Por eso la web repite tres recursos:
+ *  1. .razor-line  → una línea fina que "pasa la navaja" de izquierda a derecha.
+ *  2. .barber-pole → las rayas diagonales del poste de barbería, en movimiento.
+ *  3. .cut-bottom  → secciones que terminan con un corte en diagonal.
+ */
+@layer components {
+  .razor-line {
+    display: block;
+    height: 2px;
+    background: var(--brand-accent);
+    transform-origin: left center;
+  }
+
+  .barber-pole {
+    background-image: repeating-linear-gradient(
+      -45deg,
+      var(--brand-accent) 0 22px,
+      var(--color-paper) 22px 44px,
+      var(--color-ink) 44px 66px
+    );
+    background-size: 93.34px 93.34px; /* 66px / sen(45°): el patrón se repite sin saltos */
+  }
+
+  .cut-bottom {
+    clip-path: polygon(0 0, 100% 0, 100% calc(100% - 4vw), 0 100%);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  /* La navaja del título principal: pasa una vez al cargar. */
+  .razor-line--hero {
+    animation: shave 1100ms cubic-bezier(0.7, 0, 0.2, 1) 300ms both;
+  }
+
+  /* En los títulos de sección, la línea se dibuja cuando aparece en pantalla. */
+  .js-reveal [data-reveal] .razor-line {
+    transform: scaleX(0);
+    transition: transform 900ms cubic-bezier(0.7, 0, 0.2, 1) 200ms;
+  }
+  .js-reveal [data-reveal].is-visible .razor-line {
+    transform: none;
+  }
+
+  .barber-pole {
+    animation: pole 2.4s linear infinite;
+  }
+
+  .marquee-track {
+    animation: marquee 28s linear infinite;
+  }
+}
+
+@keyframes shave {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
+@keyframes pole {
+  to {
+    background-position: 93.34px 0;
+  }
+}
+
+@keyframes marquee {
+  to {
+    transform: translateX(-50%);
   }
 }
 

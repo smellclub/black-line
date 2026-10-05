@@ -6,7 +6,7 @@ export function Confirmation({ booking }: { booking: BookingSummary }) {
   return (
     <div role="status" className="border border-accent/60 bg-accent/5 p-8 md:p-12">
       <p className="text-xs uppercase tracking-[0.3em] text-accent">Reserva confirmada</p>
-      <h3 className="mt-3 font-display text-4xl uppercase md:text-5xl">¡Listo, {booking.customerName}!</h3>
+      <h3 className="mt-3 font-display text-5xl font-extrabold uppercase md:text-6xl">¡Listo, {booking.customerName}!</h3>
       <dl className="mt-8 grid gap-4 text-sm sm:grid-cols-2">
         <Item label="Servicio" value={booking.serviceName} />
         <Item label="Barbero" value={booking.barberName} />
@@ -25,6 +25,12 @@ export function Confirmation({ booking }: { booking: BookingSummary }) {
       <p className="mt-4 text-xs text-muted">
         Se abre WhatsApp con el mensaje listo. Si necesitás cambiar el turno, avisanos por ahí.
       </p>
+      {booking.simulated && (
+        <p className="mt-6 border-t border-line pt-4 text-xs text-muted">
+          Modo demo: este turno no se guardó en ningún lado. En la web real queda registrado y el horario
+          deja de aparecer para los demás.
+        </p>
+      )}
     </div>
   );
 }

@@ -10,7 +10,7 @@ export function Location() {
   const mapSrc = `https://www.google.com/maps?q=${encodeURIComponent(address.mapsQuery)}&output=embed`;
 
   return (
-    <section aria-labelledby="ubicacion-title" id="ubicacion" className="border-b border-line bg-ink-soft">
+    <section aria-labelledby="ubicacion-title" id="ubicacion" className="bg-ink-soft">
       <div className="mx-auto grid max-w-6xl gap-12 px-5 py-24 md:grid-cols-2 md:px-8 md:py-32">
         <div>
           <SectionTitle id="ubicacion-title" eyebrow="Dónde estamos" title="Horarios y ubicación" />
@@ -30,9 +30,14 @@ export function Location() {
             <br />
             {address.city}
             <br />
-            <a href={`tel:+${contact.phoneE164}`} className="text-accent hover:text-accent-hover">
-              {contact.phoneDisplay}
-            </a>
+            {/* En la demo el número es inventado: se muestra pero no se puede llamar. */}
+            {business.isDemo ? (
+              <span className="text-accent">{contact.phoneDisplay}</span>
+            ) : (
+              <a href={`tel:+${contact.phoneE164}`} className="text-accent hover:text-accent-hover">
+                {contact.phoneDisplay}
+              </a>
+            )}
           </address>
         </div>
         <div className="min-h-80 overflow-hidden border border-line" data-reveal>

@@ -10,6 +10,7 @@ import { Faq } from "@/components/sections/Faq";
 import { Footer } from "@/components/sections/Footer";
 import { JsonLd } from "@/components/JsonLd";
 import { MobileBookingBar } from "@/components/ui/MobileBookingBar";
+import { PoleMarquee } from "@/components/ui/PoleMarquee";
 
 export default function Home() {
   return (
@@ -18,10 +19,12 @@ export default function Home() {
       <Header />
       <main id="contenido">
         <Hero />
+        <PoleMarquee />
         <Services />
         <Team />
         <Gallery />
         <Reviews />
+        <PoleMarquee rotate="rotate-1" />
         <Booking />
         <Location />
         <Faq />

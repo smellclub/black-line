@@ -7,6 +7,7 @@ import { createBooking, getAvailableSlots, type BookingState } from "@/app/actio
 import { formatDuration, formatPrice } from "@/lib/format";
 import { formatDateParts, openDatesFrom, todayInBusinessTz } from "@/lib/slots";
 import { Confirmation } from "./Confirmation";
+import { SELECT_SERVICE_EVENT } from "@/components/ui/BookServiceLink";
 
 const initialState: BookingState = { status: "idle" };
 
@@ -55,6 +56,22 @@ export function BookingForm() {
       cancelled = true;
     };
   }, [slotsKey, serviceId, barberId, date, state]);
+
+  // Si tocan "Reservar" en la lista de precios, llegamos acá con ese servicio ya elegido.
+  useEffect(() => {
+    function onSelect(e: Event) {
+      const id = (e as CustomEvent<string>).detail;
+      if (!business.services.some((s) => s.id === id)) return;
+      setServiceId(id);
+      setTime("");
+      setBarberId((current) => {
+        const barber = business.barbers.find((b) => b.id === current);
+        return barber && barber.serviceIds.includes(id) ? current : "";
+      });
+    }
+    window.addEventListener(SELECT_SERVICE_EVENT, onSelect);
+    return () => window.removeEventListener(SELECT_SERVICE_EVENT, onSelect);
+  }, []);
 
   const slotsLoading = slotsKey !== "" && slotsState.key !== slotsKey;
   const slots = slotsState.key === slotsKey ? slotsState.slots : null;
@@ -153,7 +170,7 @@ export function BookingForm() {
                     className="sr-only"
                   />
                   <span className="block text-xs uppercase text-muted">{p.weekday}</span>
-                  <span className="block font-display text-2xl">{p.day}</span>
+                  <span className="block font-display text-3xl font-bold">{p.day}</span>
                   <span className="block text-xs uppercase text-muted">{p.month}</span>
                 </label>
               );
@@ -287,7 +304,7 @@ export function BookingForm() {
   );
 }
 
-const legendClass = "mb-4 font-display text-xl uppercase tracking-[0.15em] text-paper";
+const legendClass = "mb-4 font-display text-2xl font-bold uppercase tracking-[0.15em] text-paper";
 
 // has-[:checked] marca la opción elegida; has-[:focus-visible] muestra el foco del teclado.
 const optionClass =

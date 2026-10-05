@@ -1,14 +1,16 @@
 import Image from "next/image";
 import { business } from "@/config/business";
 import { ButtonLink } from "@/components/ui/ButtonLink";
+import { formatPrice } from "@/lib/format";
 
 export function Hero() {
   const [first, ...rest] = business.name.split(" ");
+  const cheapest = Math.min(...business.services.map((s) => s.priceUYU));
   return (
     <section
       id="inicio"
       aria-labelledby="hero-title"
-      className="relative isolate overflow-hidden border-b border-line"
+      className="cut-bottom relative isolate overflow-hidden bg-ink"
     >
       {/* Foto de fondo: priority porque es lo primero que se ve (mejora el LCP). */}
       <Image
@@ -22,38 +24,42 @@ export function Hero() {
       {/* Overlay negro: garantiza contraste AA del texto sobre cualquier foto. */}
       <div
         aria-hidden
-        className="absolute inset-0 -z-10 bg-[linear-gradient(to_top,var(--color-ink)_8%,rgb(10_10_10/0.82)_45%,rgb(10_10_10/0.6))]"
-      />
-      <div
-        aria-hidden
-        className="absolute inset-0 -z-10 bg-[radial-gradient(ellipse_at_70%_20%,color-mix(in_srgb,var(--brand-accent)_16%,transparent),transparent_60%)]"
+        className="absolute inset-0 -z-10 bg-[linear-gradient(to_top,var(--color-ink)_10%,rgb(10_10_10/0.85)_45%,rgb(10_10_10/0.55))]"
       />
 
-      <div className="mx-auto flex min-h-[88svh] max-w-6xl flex-col justify-end px-5 pb-16 pt-24 md:px-8 md:pb-24">
+      {/* El poste de barbería, vertical, pegado al borde derecho. */}
+      <div aria-hidden className="barber-pole absolute right-10 top-0 -z-10 hidden h-full w-5 opacity-80 md:block" />
+
+      <div className="mx-auto flex min-h-[90svh] max-w-6xl flex-col justify-end px-5 pb-[calc(4rem+4vw)] pt-20 md:px-8 md:pb-[calc(6rem+4vw)]">
         <p className="mb-6 text-xs font-medium uppercase tracking-[0.35em] text-accent">
           Barbería · {business.address.city}
         </p>
         <h1
           id="hero-title"
-          className="font-display text-[clamp(4rem,17vw,11rem)] font-bold uppercase leading-[0.85] tracking-tight"
+          className="font-display text-[clamp(5rem,24vw,15rem)] font-extrabold uppercase leading-[0.78] tracking-tight"
         >
           {first}
           {rest.length > 0 && (
             <>
-              <br />
-              <span className="text-transparent [-webkit-text-stroke:1.5px_var(--color-paper)]">
+              {/* La "línea" del nombre: la navaja pasa una vez al cargar la página. */}
+              <span aria-hidden className="razor-line razor-line--hero my-3 md:my-5" />
+              <span className="block text-transparent [-webkit-text-stroke:2px_var(--color-paper)]">
                 {rest.join(" ")}
               </span>
             </>
           )}
         </h1>
-        <div className="mt-8 h-px w-24 bg-accent" />
-        <p className="mt-8 max-w-md text-lg leading-relaxed text-paper/80 md:text-xl">{business.slogan}</p>
-        <div className="mt-10 flex flex-col gap-3 sm:flex-row">
-          <ButtonLink href="#reservar">Reservar turno</ButtonLink>
-          <ButtonLink href="#servicios" variant="outline">
-            Ver servicios
-          </ButtonLink>
+        <div className="mt-10 flex flex-col gap-8 md:flex-row md:items-end md:justify-between">
+          <p className="max-w-sm text-lg leading-relaxed text-paper/85 md:text-xl">
+            {business.slogan} Turnos online desde{" "}
+            <span className="whitespace-nowrap font-semibold text-paper">{formatPrice(cheapest)}</span>.
+          </p>
+          <div className="flex flex-col gap-3 sm:flex-row">
+            <ButtonLink href="#reservar">Reservar turno</ButtonLink>
+            <ButtonLink href="#servicios" variant="outline">
+              Ver precios
+            </ButtonLink>
+          </div>
         </div>
       </div>
     </section>
