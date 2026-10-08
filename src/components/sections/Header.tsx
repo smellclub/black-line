@@ -1,37 +1,41 @@
 import { business } from "@/config/business";
+import { Logo } from "@/components/ui/Logo";
 
 const links = [
-  { href: "#servicios", label: "Servicios" },
-  { href: "#equipo", label: "Equipo" },
-  { href: "#trabajos", label: "Trabajos" },
-  { href: "#ubicacion", label: "Ubicación" },
+  { href: "#precios", label: "Precios" },
+  { href: "#horario", label: "Horario" },
 ];
 
+/** Arriba de todo, el cartel de demo. Debajo, la barra que queda pegada al hacer scroll. */
 export function Header() {
   return (
-    <header className="sticky top-0 z-40 border-b border-line/60 bg-ink/85 backdrop-blur">
-      <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-5 md:px-8">
-        <a href="#inicio" className="font-display text-xl font-semibold uppercase tracking-[0.15em]">
-          {business.name}
-        </a>
-        <nav aria-label="Principal" className="flex items-center gap-8">
-          <ul className="hidden items-center gap-8 text-sm text-muted md:flex">
-            {links.map((l) => (
-              <li key={l.href}>
-                <a href={l.href} className="transition-colors hover:text-paper">
-                  {l.label}
-                </a>
-              </li>
-            ))}
-          </ul>
-          <a
-            href="#reservar"
-            className="bg-accent px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-ink transition-colors hover:bg-accent-hover"
-          >
-            Reservar
+    <>
+      {business.notice && (
+        <p className="bg-ink px-4 py-2 text-center text-xs font-semibold text-bone sm:text-sm">
+          {business.notice}
+        </p>
+      )}
+      <header className="sticky top-0 z-40 border-b border-ink/10 bg-bone/90 backdrop-blur">
+        <nav aria-label="Principal" className="mx-auto flex h-16 max-w-6xl items-center justify-between gap-4 px-5 md:px-8">
+          <a href="#inicio" aria-label={`${business.name}, volver al inicio`}>
+            <Logo className="text-2xl" />
           </a>
+          <div className="flex items-center gap-6">
+            <ul className="hidden items-center gap-6 sm:flex">
+              {links.map((l) => (
+                <li key={l.href}>
+                  <a href={l.href} className="tag text-ink/70 transition-colors hover:text-ink">
+                    {l.label}
+                  </a>
+                </li>
+              ))}
+            </ul>
+            <a href="#reservar" className="btn btn-barbicide px-4 py-2 text-sm">
+              Reservá
+            </a>
+          </div>
         </nav>
-      </div>
-    </header>
+      </header>
+    </>
   );
 }

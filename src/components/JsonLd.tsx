@@ -12,7 +12,6 @@ export function JsonLd() {
     description: business.description,
     url: business.siteUrl,
     telephone: `+${contact.phoneE164}`,
-    email: contact.email,
     priceRange: "$$",
     currenciesAccepted: "UYU",
     address: {
@@ -32,7 +31,7 @@ export function JsonLd() {
         opens: h!.open,
         closes: h!.close,
       })),
-    sameAs: Object.values(business.social),
+    sameAs: [`https://www.instagram.com/${business.social.instagram}/`],
     makesOffer: business.services.map((s) => ({
       "@type": "Offer",
       itemOffered: { "@type": "Service", name: s.name, description: s.description },

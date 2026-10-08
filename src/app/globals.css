@@ -1,67 +1,218 @@
 @import "tailwindcss";
 
 /*
- * Paleta fija: negro profundo y blanco. El acento (--brand-accent) se define
- * en layout.tsx a partir de business.ts, así el rebrandeo no toca este archivo.
+ * Paleta. Concepto: el mostrador de una barbería de barrio.
+ * bone = la pared y el papel del ticket, ink = el sillón y la pizarra de precios,
+ * barbicide = el turquesa del frasco donde se desinfectan los peines (el color que se recuerda),
+ * pole = el rojo del poste rayado (solo en detalles).
+ * Para cambiar la marca se tocan solo estas variables.
  */
+:root {
+  --bone: #efe8dc;
+  --bone-deep: #e3d9c7;
+  --ink: #141312;
+  --ink-soft: #1f1d1b;
+  --muted: #6b645a;
+  --line: #cfc5b3;
+  --barbicide: #087d7a;
+  --barbicide-deep: #04524f;
+  /* Turquesa claro, solo para texto chico sobre negro (contraste). */
+  --barbicide-glow: #5fd0c9;
+  --pole: #d0342c;
+}
+
 @theme inline {
-  --color-ink: #0a0a0a;
-  --color-ink-soft: #111111;
-  --color-line: #262626;
-  --color-paper: #f5f3ef;
-  --color-muted: #a3a3a3;
-  --color-accent: var(--brand-accent);
-  --color-accent-hover: var(--brand-accent-hover);
-  --font-display: var(--font-oswald);
-  --font-sans: var(--font-inter);
+  --color-bone: var(--bone);
+  --color-bone-deep: var(--bone-deep);
+  --color-ink: var(--ink);
+  --color-ink-soft: var(--ink-soft);
+  --color-muted: var(--muted);
+  --color-line: var(--line);
+  --color-barbicide: var(--barbicide);
+  --color-barbicide-deep: var(--barbicide-deep);
+  --color-barbicide-glow: var(--barbicide-glow);
+  --color-pole: var(--pole);
+  --font-display: var(--font-bricolage);
+  --font-serif: var(--font-instrument);
+  --font-sans: var(--font-bricolage);
 }
 
 html {
-  scroll-behavior: smooth;
   scroll-padding-top: 5rem;
 }
 
+html,
 body {
-  background: var(--color-ink);
-  color: var(--color-paper);
+  overflow-x: clip;
 }
 
-::selection {
-  background: var(--brand-accent);
+body {
+  background: var(--color-bone);
   color: var(--color-ink);
 }
 
-/* Foco visible para quien navega con teclado. */
+::selection {
+  background: var(--color-barbicide);
+  color: #fff;
+}
+
 :focus-visible {
-  outline: 2px solid var(--brand-accent);
+  outline: 3px solid var(--color-barbicide);
   outline-offset: 3px;
 }
 
-/*
- * Animación de aparición al hacer scroll. Solo se activa si hay JS
- * (clase js-reveal en <html>) y si el usuario no pidió reducir movimiento.
- */
-@media (prefers-reduced-motion: no-preference) {
-  .js-reveal [data-reveal] {
-    opacity: 0;
-    transform: translateY(24px);
-    transition:
-      opacity 700ms ease,
-      transform 700ms cubic-bezier(0.2, 0.7, 0.2, 1);
-  }
-  .js-reveal [data-reveal].is-visible {
-    opacity: 1;
-    transform: none;
-  }
+/* Lenis (scroll suave): reglas de su documentación. */
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
 }
 
-@media (prefers-reduced-motion: reduce) {
-  html {
-    scroll-behavior: auto;
-  }
-}
-
-/* Por defecto un <fieldset> no se achica más que su contenido: rompe el scroll horizontal de las fechas en celular. */
+/* Por defecto un <fieldset> no se achica más que su contenido: rompe el scroll horizontal de los días en celular. */
 fieldset {
   min-width: 0;
+}
+
+@layer components {
+  /* Títulos: grotesca angosta y pesada, como los carteles pintados de las barberías viejas. */
+  .display {
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-stretch: 75%;
+    font-variation-settings: "opsz" 96;
+    text-transform: uppercase;
+    line-height: 0.84;
+    letter-spacing: -0.01em;
+  }
+
+  /* El poste rayado: franjas diagonales que suben sin parar. */
+  .pole-stripes {
+    background-image: repeating-linear-gradient(
+      -45deg,
+      var(--pole) 0 14px,
+      var(--bone) 14px 28px,
+      var(--barbicide) 28px 42px,
+      var(--bone) 42px 56px
+    );
+    background-size: 79.2px 79.2px;
+    animation: pole 2.4s linear infinite;
+  }
+
+  /* La pizarra de precios con letras blancas encastradas: fondo negro acanalado. */
+  .letterboard {
+    background-color: var(--ink);
+    background-image: repeating-linear-gradient(180deg, rgb(255 255 255 / 0.05) 0 1px, transparent 1px 9px);
+    color: #f6f1e8;
+  }
+  .letter {
+    text-shadow:
+      0 1px 0 rgb(255 255 255 / 0.25),
+      0 2px 3px rgb(0 0 0 / 0.6);
+  }
+
+  /* El ticket del turno: papel con borde dentado arriba y abajo. */
+  .ticket {
+    background: #fbf7ef;
+    color: var(--ink);
+    --tooth: 9px;
+    mask:
+      radial-gradient(var(--tooth) at 50% 0, #0000 98%, #000) 50% 0 / calc(var(--tooth) * 2.2) 51% repeat-x,
+      radial-gradient(var(--tooth) at 50% 100%, #0000 98%, #000) 50% 100% / calc(var(--tooth) * 2.2) 51% repeat-x;
+  }
+
+  /* Botón principal: bloque turquesa que se hunde al apretarlo. */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.6rem;
+    border-radius: 0.4rem;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    transition:
+      transform 150ms ease,
+      box-shadow 150ms ease,
+      background-color 150ms ease;
+  }
+  .btn-barbicide {
+    background: var(--color-barbicide);
+    color: #fff;
+    box-shadow: 0 5px 0 var(--color-barbicide-deep);
+  }
+  .btn-barbicide:hover {
+    background: #0a8c88;
+  }
+  .btn-ink {
+    background: var(--color-ink);
+    color: var(--color-bone);
+    box-shadow: 0 5px 0 rgb(0 0 0 / 0.35);
+  }
+  .btn-ink:hover {
+    background: #2a2725;
+  }
+  .btn-barbicide:active,
+  .btn-ink:active {
+    transform: translateY(4px);
+    box-shadow: 0 1px 0 rgb(0 0 0 / 0.35);
+  }
+
+  /* Etiqueta chica en mayúsculas. */
+  .tag {
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+  }
+
+  /* Opción elegible (servicio, barbero, día, hora): radio real escondido, el borde marca la elección. */
+  .choice {
+    position: relative;
+    display: block;
+    cursor: pointer;
+    border-radius: 0.4rem;
+    border: 2px solid rgb(255 255 255 / 0.35);
+    padding: 0.75rem 1rem;
+    transition:
+      background-color 150ms ease,
+      border-color 150ms ease,
+      color 150ms ease;
+  }
+  .choice:hover {
+    border-color: #fff;
+  }
+  .choice:has(:checked) {
+    background: var(--color-ink);
+    border-color: var(--color-ink);
+    color: var(--color-bone);
+  }
+  .choice:has(:focus-visible) {
+    outline: 3px solid #fff;
+    outline-offset: 2px;
+  }
+}
+
+@keyframes pole {
+  to {
+    background-position: 0 -79.2px;
+  }
+}
+
+/* Cinta infinita: el contenido está duplicado y se corre exactamente la mitad. */
+@keyframes marquee {
+  to {
+    transform: translateX(-50%);
+  }
+}
+.marquee-track {
+  animation: marquee var(--marquee-speed, 30s) linear infinite;
+}
+
+/* Quien pide menos movimiento en su sistema ve todo quieto (GSAP también lo chequea). */
+@media (prefers-reduced-motion: reduce) {
+  .pole-stripes,
+  .marquee-track {
+    animation: none;
+  }
 }

@@ -1,24 +1,29 @@
 import { business } from "@/config/business";
 import { formatLongDate } from "@/lib/slots";
 
-export type BookingSummary = {
+export type BookingRequest = {
   serviceName: string;
+  /** Vacío = "el que esté libre". */
   barberName: string;
   date: string;
   time: string;
   customerName: string;
 };
 
-/** Link a WhatsApp del local con el mensaje de confirmación ya escrito. */
-export function whatsappConfirmationUrl(booking: BookingSummary): string {
-  const text =
-    `¡Hola ${business.name}! Reservé un turno:\n` +
-    `• ${booking.serviceName} con ${booking.barberName}\n` +
-    `• ${formatLongDate(booking.date)} a las ${booking.time}\n` +
-    `A nombre de ${booking.customerName}.`;
-  return `https://wa.me/${business.contact.phoneE164}?text=${encodeURIComponent(text)}`;
+/** El mensaje que le llega al barbero, ya escrito. */
+export function bookingMessage(b: BookingRequest): string {
+  return [
+    `¡Hola ${business.name}! Quiero reservar un turno:`,
+    `• ${b.serviceName}${b.barberName ? ` con ${b.barberName}` : ""}`,
+    `• ${formatLongDate(b.date)} a las ${b.time}`,
+    b.customerName ? `A nombre de ${b.customerName}.` : "",
+    "¿Me lo confirman?",
+  ]
+    .filter(Boolean)
+    .join("\n");
 }
 
-export function whatsappUrl(): string {
-  return `https://wa.me/${business.contact.phoneE164}`;
+/** Link a WhatsApp del local, con un mensaje opcional ya escrito. */
+export function whatsappUrl(text?: string): string {
+  return `https://wa.me/${business.contact.phoneE164}${text ? `?text=${encodeURIComponent(text)}` : ""}`;
 }

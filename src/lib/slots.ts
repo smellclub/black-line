@@ -1,8 +1,8 @@
 import { business, type Weekday } from "@/config/business";
 
 /**
- * Lógica de horarios. Es código puro (sin base de datos) para poder usarlo
- * tanto en el servidor como en el navegador y que los dos calculen lo mismo.
+ * Lógica de horarios. Es código puro: corre en el navegador y calcula
+ * qué días abre el local y en qué horarios puede empezar un turno.
  *
  * Fechas: siempre "YYYY-MM-DD" en la zona horaria del local.
  * Horas: siempre "HH:MM" en formato 24 h, también en hora local.
@@ -90,26 +90,14 @@ export function candidateSlots(date: string, durationMinutes: number): string[] 
   return slots;
 }
 
-export type BusyInterval = { start: Date; end: Date };
-
 /**
- * Horarios libres: los candidatos que no se pisan con ninguna reserva
- * y que respetan la anticipación mínima.
+ * Horarios que se pueden pedir: los candidatos que respetan la anticipación mínima.
+ * No sabemos qué turnos ya están tomados (no hay base de datos): eso lo confirma
+ * el barbero cuando le llega el WhatsApp.
  */
-export function freeSlots(
-  date: string,
-  durationMinutes: number,
-  busy: BusyInterval[],
-  now: Date = new Date(),
-): string[] {
+export function requestableSlots(date: string, durationMinutes: number, now: Date = new Date()): string[] {
   const earliest = now.getTime() + business.booking.minNoticeMinutes * 60_000;
-  return candidateSlots(date, durationMinutes).filter((time) => {
-    const start = toInstant(date, time).getTime();
-    const end = start + durationMinutes * 60_000;
-    if (start < earliest) return false;
-    // Dos intervalos [a, b) y [c, d) se pisan si a < d y c < b.
-    return !busy.some((b) => start < b.end.getTime() && b.start.getTime() < end);
-  });
+  return candidateSlots(date, durationMinutes).filter((time) => toInstant(date, time).getTime() >= earliest);
 }
 
 /** "martes 7 de octubre" */
